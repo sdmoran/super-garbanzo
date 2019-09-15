@@ -1,4 +1,9 @@
 # super-garbanzo
+A multiplayer online question- and response-based game project with 3 objectives:
+- Learn Vue
+- Learn Node
+- Do it all with test-driven development
+
 
 ## Project setup
 ```
