@@ -14,6 +14,7 @@ describe('serverGet', () => {
     })
   })
 
+// Test valid addition of a player to database
 describe('test valid add player', () => {
     it('should add the given player to the array of players in playerstore', (done) => {
         console.log(url + 'players/');
@@ -23,6 +24,7 @@ describe('test valid add player', () => {
     })
 })
 
+// Test invalid addition of a player to database
 describe('test invalid add player', () => {
     it('should reject adding the player', (done) => {
         const player = {'name':'Jimbo'};
