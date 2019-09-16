@@ -3,7 +3,7 @@ var PlayerStore = {
     methods: {
         addPlayer: function(name) {
             // Check if there is already a player with the given name. If not, add the player.
-            if(!players.some((p) => { p.name == name })) {
+            if(!PlayerStore.players.some((p) => { return p.name == name })) {
                 PlayerStore.players.push(createPlayer(name));
                 return true;
             }

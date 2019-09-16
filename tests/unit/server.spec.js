@@ -13,3 +13,25 @@ describe('serverGet', () => {
         }).then(done, done);
     })
   })
+
+describe('test valid add player', () => {
+    it('should add the given player to the array of players in playerstore', (done) => {
+        console.log(url + 'players/');
+        axios.post(url + 'players/', {'name': 'Joffremere'}).then((res) => {
+            expect(res.data).to.include('Added player!');
+        }).then(done, done);
+    })
+})
+
+describe('test invalid add player', () => {
+    it('should reject adding the player', (done) => {
+        const player = {'name':'Jimbo'};
+        axios.post(url + 'players/', player)
+        .then(
+            axios.post(url + 'players/', player)
+            .catch((err) => {
+                expect(err).to.be.an('error');
+            }).then(done, done, done)
+        );
+    })
+})
