@@ -28,7 +28,7 @@ describe('test API getPlayers', () => {
 describe('test valid add player', () => {
     it('should add the given player to the array of players in playerstore', (done) => {
         console.log(url + 'players/');
-        axios.post(url + 'players/', {'name': 'Joffremere'}).then((res) => {
+        API.postPlayer("Jemberson").then((res) => {
             expect(res.data).to.include('Added player!');
         }).then(done, done);
     })
@@ -37,10 +37,10 @@ describe('test valid add player', () => {
 // Test invalid addition of a player to database
 describe('test invalid add player', () => {
     it('should reject adding the player', (done) => {
-        const player = {'name':'Jimbo'};
-        axios.post(url + 'players/', player)
+        const name = "Jigjaloo";
+        API.postPlayer(name)
         .then(
-            axios.post(url + 'players/', player)
+            API.postPlayer(name)
             .catch((err) => {
                 expect(err).to.be.an('error');
             }).then(done, done, done)

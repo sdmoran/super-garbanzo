@@ -4,14 +4,15 @@ const axios = require('axios')
 const url = 'http://localhost:3000/'
 const playerPath = 'players/'
 
-// Make a get request to server for the current list of players.
+// Make a GET request to server for the current list of players.
 const getPlayers = function() {
     return axios.get(url + playerPath);
 }
 
-const post = function(path="", data="") {
-    return axios.post(url + path, )
+// Make a POST request to server with the given player name.
+const postPlayer = function(name) {
+    return axios.post(url + playerPath, {"name": name});
 }
 
 exports.getPlayers = getPlayers;
-exports.post = post;
+exports.postPlayer = postPlayer;
