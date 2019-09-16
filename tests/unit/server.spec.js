@@ -2,6 +2,7 @@
 
 import { expect } from 'chai'
 const axios = require('axios')
+const API = require('../../server/api')
 
 const url = 'http://localhost:3000/'
 
@@ -13,6 +14,15 @@ describe('serverGet', () => {
         }).then(done, done);
     })
   })
+
+// Test getting players from API
+describe('test API getPlayers', () => {
+    it('responds with the current list of players on the server', (done) => {
+        API.getPlayers().then((res) => {
+            expect(res.data).to.be.an('array');
+        }).then(done, done);
+    })
+})
 
 // Test valid addition of a player to database
 describe('test valid add player', () => {
