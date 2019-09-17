@@ -1,15 +1,28 @@
 // This file is for testing server responses.
+//process.env.NODE_ENV = 'test'
+
+var server = require('../../server/server');
+
+describe('server', function () {
+  before(function () {
+    server.listen(process.env.PORT);
+  });
+
+  after(function() {
+    server.close();
+  });
+});
 
 import { expect } from 'chai'
 const axios = require('axios')
 const API = require('../../server/api')
 
-const url = 'http://localhost:3000/'
+const url = 'http://localhost:8000/'
 
 // Tests response of GET request
 describe('serverGet', () => {
     it('responds with hello world when get request is made', (done) => {
-        axios.get(url).then((res) => {
+        API.get(url).then((res) => {
             expect(res.data).to.include('Hello World!');
         }).then(done, done);
     })
@@ -24,17 +37,16 @@ describe('test API getPlayers', () => {
     })
 })
 
-// Test valid addition of a player to database
+// Test valid addition of a player to database through API
 describe('test valid add player', () => {
     it('should add the given player to the array of players in playerstore', (done) => {
-        console.log(url + 'players/');
         API.postPlayer("Jemberson").then((res) => {
             expect(res.data).to.include('Added player!');
         }).then(done, done);
     })
 })
 
-// Test invalid addition of a player to database
+// Test invalid addition of a player to database through API
 describe('test invalid add player', () => {
     it('should reject adding the player', (done) => {
         const name = "Jigjaloo";

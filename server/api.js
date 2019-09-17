@@ -1,8 +1,9 @@
 // API to make calls to the server a little more manageable from Vue components and views.
 
 const axios = require('axios')
-const url = 'http://localhost:3000/'
-const playerPath = 'players/'
+const port = process.env.VUE_APP_PORT || 8000;
+const url = 'http://localhost:' + port
+const playerPath = '/players/'
 
 // Make a GET request to server for the current list of players.
 const getPlayers = function() {
@@ -14,5 +15,10 @@ const postPlayer = function(name) {
     return axios.post(url + playerPath, {"name": name});
 }
 
+const get = function() {
+    return axios.get(url);
+}
+
 exports.getPlayers = getPlayers;
 exports.postPlayer = postPlayer;
+exports.get = get;

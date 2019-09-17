@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = process.env.VUE_APP_PORT;
 const PlayerStore = require('./PlayerStore');
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -26,5 +26,16 @@ app.post('/players/', (req, res) => {
 })
 
 app.listen(port, () => {
+    console.log('NODE_ENV: ' + process.env.NODE_ENV)
     console.log('Server listening on port %s', port)
 });
+
+exports.app = app;
+
+// exports.listen = function() {
+//     this.server.listen.apply(this.server, args);
+// }
+
+// exports.close = function(callback) {
+//     this.server.close(callback);
+// }
