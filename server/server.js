@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-const port = process.env.VUE_APP_PORT;
+// Run backend server on VUE_APP_PORT if specified, default 8000.
+const port = process.env.VUE_APP_PORT || 8000;
 const PlayerStore = require('./PlayerStore');
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -31,11 +32,3 @@ app.listen(port, () => {
 });
 
 exports.app = app;
-
-// exports.listen = function() {
-//     this.server.listen.apply(this.server, args);
-// }
-
-// exports.close = function(callback) {
-//     this.server.close(callback);
-// }
