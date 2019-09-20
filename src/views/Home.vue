@@ -1,6 +1,8 @@
 <template>
   <div class="home">
-    <h1>This is the homepage of my Vue app!</h1>
+    <h1>This is the home page.</h1>
+    <input v-model="msg">
+    <p>{{msg}}</p>
   </div>
 </template>
 
@@ -9,8 +11,13 @@
 
 export default {
   name: 'home',
+  data: function() {
+    return {
+        msg: "hello!",
+    }
+  },
   components: {
     
-  }
+  },
 }
 </script>
