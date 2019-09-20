@@ -11,7 +11,7 @@ const getPlayers = function() {
 }
 
 // Make a POST request to server with the given player name.
-const postPlayer = function(name) {
+const addPlayer = function(name) {
     return axios.post(url + playerPath, {"name": name});
 }
 
@@ -20,5 +20,5 @@ const get = function() {
 }
 
 exports.getPlayers = getPlayers;
-exports.postPlayer = postPlayer;
+exports.addPlayer = addPlayer;
 exports.get = get;

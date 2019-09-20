@@ -14,7 +14,6 @@ describe('server', function () {
 });
 
 import { expect } from 'chai'
-const axios = require('axios')
 const API = require('../../server/api')
 
 const url = 'http://localhost:8000/'
@@ -40,7 +39,7 @@ describe('test API getPlayers', () => {
 // Test valid addition of a player to database through API
 describe('test valid add player', () => {
     it('should add the given player to the array of players in playerstore', (done) => {
-        API.postPlayer("Jemberson").then((res) => {
+        API.addPlayer("Jemberson").then((res) => {
             expect(res.data).to.include('Added player!');
         }).then(done, done);
     })
@@ -50,9 +49,9 @@ describe('test valid add player', () => {
 describe('test invalid add player', () => {
     it('should reject adding the player', (done) => {
         const name = "Jigjaloo";
-        API.postPlayer(name)
+        API.addPlayer(name)
         .then(
-            API.postPlayer(name)
+            API.addPlayer(name)
             .catch((err) => {
                 expect(err).to.be.an('error');
             }).then(done, done, done)
