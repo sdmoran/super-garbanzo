@@ -1,5 +1,4 @@
 // This file is for testing server responses.
-//process.env.NODE_ENV = 'test'
 
 var server = require('../../server/server');
 

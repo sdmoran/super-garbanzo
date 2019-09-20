@@ -16,11 +16,8 @@ export default {
   name: 'showplayers',
   data: function() {
     return {
-        msg: "hello!",
-        players: [
-            {name: "jembo"},
-            {name: "Joffermy"},
-        ],
+        msg: "Hello!",
+        players: [],
     }
   },
   components: {
@@ -29,7 +26,8 @@ export default {
   mounted() {
       API.getPlayers().then( (res) => {
           console.log(res.data);
-      })
+          this.players = res.data;
+      });
   },
 }
 </script>
