@@ -8,7 +8,7 @@
 </template>
 
 <script>
-// @ is an alias to /src
+import io from 'socket.io-client';
 
 const API = require('../../../server/api');
 
@@ -17,17 +17,26 @@ export default {
   data: function() {
     return {
         msg: "Hello!",
+        socket: io('localhost:8000'),
         players: [],
+    }
+  },
+  methods: {
+    refresh: function() {
+          API.getPlayers().then( (res) => {
+          console.log(res.data);
+          this.players = res.data;
+      });
     }
   },
   components: {
     
   },
   mounted() {
-      API.getPlayers().then( (res) => {
-          console.log(res.data);
-          this.players = res.data;
-      });
+    this.refresh();
+    this.socket.on('playerAdded', () => {
+      this.refresh();
+    });
   },
 }
 </script>

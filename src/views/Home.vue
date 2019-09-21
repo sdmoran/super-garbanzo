@@ -1,11 +1,14 @@
 <template>
   <div class="home">
     <h1>This is the home page.</h1>
-    <div v-if="!submitted">
+    <p>{{msg}}</p>
+    <div v-if="showInput">
       <input name="textbox" v-model="playerName">
       <input class="submit" type="submit" v-on:click="sendPlayer()"> 
     </div>
-    <p>{{msg}}</p>
+    <div v-if="succeeded">
+      <p>Your name: {{playerName}}</p>
+    </div>
   </div>
 </template>
 
@@ -18,21 +21,23 @@ export default {
   data: function() {
     return {
         playerName: "",
-        submitted: false,
+        succeeded: false,
+        showInput: true,
         msg: "Type in a name and click submit!",
     }
   },
   methods: {
     sendPlayer() {
-      this.submitted = true;
+      this.showInput = false;
       this.msg = "Please wait...";
       return API.addPlayer(this.playerName)
         .then( () => {
           this.msg = "Successfully added player!";
+          this.succeeded = true;
         })
         .catch( () => {
           this.msg = "Failed to add player, try a different name."
-          this.submitted = false;
+          this.showInput = true;
         })
     },
   },

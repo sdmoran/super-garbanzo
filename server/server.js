@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*"); // Any origin OK
+    res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
@@ -24,6 +24,7 @@ app.post('/players/', (req, res) => {
     const name = req.body.name;
     if(PlayerStore.addPlayer(name)) {
         console.log(PlayerStore.getPlayers());
+        io.emit('playerAdded', name);
         res.send("Added player!");
     }
     else {
@@ -32,9 +33,11 @@ app.post('/players/', (req, res) => {
     }
 })
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log('NODE_ENV: ' + process.env.NODE_ENV)
     console.log('Server listening on port %s', port)
 });
+
+const io = require('socket.io')(server);
 
 exports.app = app;
