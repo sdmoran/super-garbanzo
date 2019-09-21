@@ -1,5 +1,5 @@
 var PlayerStore = {
-    players: [],
+    players: [{name: "jeff", score: 0}],
     methods: {
         addPlayer: function(name) {
             // Check if there is already a player with the given name. If not, add the player.

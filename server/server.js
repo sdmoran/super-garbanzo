@@ -11,8 +11,6 @@ const QuestionStore = require('./QuestionStore');
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-QuestionStore.loadQuestions(8);
-
 // Set up headers for server
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
