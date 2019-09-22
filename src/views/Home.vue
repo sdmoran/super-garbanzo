@@ -9,11 +9,14 @@
     <div v-if="succeeded">
       <p>Your name: {{playerName}}</p>
     </div>
+    <div v-if="isAdmin && succeeded">
+      <button v-on:click="startGame()">START THE GAME</button>
+    </div>
   </div>
 </template>
 
 <script>
-
+const io = require('socket.io-client');
 const API = require('../../server/api');
 
 export default {
@@ -23,6 +26,8 @@ export default {
         playerName: "",
         succeeded: false,
         showInput: true,
+        isAdmin: true,
+        socket: io('localhost:8000'),
         msg: "Type in a name and click submit!",
     }
   },
@@ -40,6 +45,14 @@ export default {
           this.showInput = true;
         })
     },
+    startGame() {
+      API.startGame();
+    }
   },
+  mounted() {
+    this.socket.on('startGame', () => {
+      this.$router.push('/play/');
+    });
+  }
 }
 </script>

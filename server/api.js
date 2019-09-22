@@ -3,7 +3,8 @@
 const axios = require('axios')
 const port = process.env.VUE_APP_PORT || 8000;
 const url = 'http://localhost:' + port
-const playerPath = '/players/'
+const playerPath = '/players'
+const adminPath = '/admin'
 
 // Make a GET request to server for the current list of players.
 const getPlayers = function() {
@@ -19,6 +20,11 @@ const get = function() {
     return axios.get(url);
 }
 
+const startGame = function() {
+    return axios.post(url + adminPath + "/start");
+}
+
 exports.getPlayers = getPlayers;
 exports.addPlayer = addPlayer;
+exports.startGame = startGame;
 exports.get = get;

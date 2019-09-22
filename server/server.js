@@ -43,6 +43,14 @@ app.post('/players/', (req, res) => {
     }
 })
 
+
+// POST request to start the game.
+app.post('/admin/start', (req, res) => {
+    io.emit('startGame');
+    console.log('Game starting...');
+    res.send('Game starting...');
+})
+
 // Starts server
 const server = app.listen(port, () => {
     console.log('NODE_ENV: ' + process.env.NODE_ENV)
