@@ -7,7 +7,7 @@
       <input class="submit" type="submit" v-on:click="sendPlayer()"> 
     </div>
     <div v-if="succeeded">
-      <p>Your name: {{playerName}}</p>
+      <p>Your name: {{this.$store.state.name}}</p>
     </div>
     <div v-if="isAdmin && succeeded">
       <button v-on:click="startGame()">START THE GAME</button>
@@ -39,6 +39,7 @@ export default {
         .then( () => {
           this.msg = "Successfully added player!";
           this.succeeded = true;
+          this.$store.commit('setName', this.playerName);
         })
         .catch( () => {
           this.msg = "Failed to add player, try a different name."
