@@ -17,6 +17,7 @@ function randomQuestions(num=1) {
     const q = "SELECT * FROM questions ORDER BY RAND() LIMIT ?";
     return new Promise((resolve, reject) => {
         connection.query(q, num, function(err, rows) {
+            connection.end();
             if(!err) {
                 resolve(rows);
             }
