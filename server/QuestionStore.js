@@ -26,14 +26,19 @@ var QuestionStore = {
             return QuestionStore.questions;
         },
         assignPlayers(players) {
-            for(let i = 0; i < players.length; i++) {
-                QuestionStore.questions[i * 2].player = players[0].name;
-                QuestionStore.questions[i * 2 + 1].plaer = players[0].name;
-            }
+            QuestionStore.methods.loadQuestions(players.length * 2).then(() => {
+                for(let i = 0; i < players.length; i++) {
+                    QuestionStore.questions[i * 2].player = players[i].name;
+                    QuestionStore.questions[i * 2 + 1].player = players[i].name;
+                }
+                console.log("Questions done! Assigned as follows: ");
+                for(let i = 0; i < QuestionStore.questions.length; i++) {
+                    console.log(QuestionStore.questions[i]);
+                }
+            });
         }
     },
 }
 
-exports.loadQuestions = QuestionStore.methods.loadQuestions;
 exports.getQuestions = QuestionStore.methods.getQuestions;
 exports.assignPlayers = QuestionStore.methods.assignPlayers;

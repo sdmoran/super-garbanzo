@@ -48,6 +48,8 @@ app.post('/players/', (req, res) => {
 app.post('/admin/start', (req, res) => {
     io.emit('startGame');
     console.log('Game starting...');
+    QuestionStore.assignPlayers(PlayerStore.getPlayers());
+    console.log(QuestionStore.getQuestions());
     res.send('Game starting...');
 })
 
