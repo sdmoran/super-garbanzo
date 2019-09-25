@@ -8,12 +8,12 @@ var connection = mysql.createConnection({
   host     : permissions.database.host,
   user     : permissions.database.user,
   password : permissions.database.password,
-  database : permissions.database.database
+  database : permissions.database.database,
+  connectTimeout : permissions.database.connectTimeout
 });
- 
-connection.connect();
 
 function randomQuestions(num=1) {
+    connection.connect();
     const q = "SELECT * FROM questions ORDER BY RAND() LIMIT ?";
     return new Promise((resolve, reject) => {
         connection.query(q, num, function(err, rows) {
@@ -28,6 +28,7 @@ function randomQuestions(num=1) {
     })
 }
 
+// CURRENTLY this won't work because connection is not opened before query is made.
 // Useful for loading questions into the server, if you have some prepared in a file.
 function loadQuestions() {
     // Create linereader on questions file
