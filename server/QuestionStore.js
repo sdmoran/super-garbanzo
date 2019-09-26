@@ -22,8 +22,15 @@ var QuestionStore = {
                 }
             })
         },
-        getQuestions() {
-            return QuestionStore.questions;
+        getQuestions(name) {
+            if(!name) {
+                return QuestionStore.questions;
+            }
+            else {
+                return QuestionStore.questions.filter((q) => {
+                    return q.player === name;
+                });
+            }
         },
         assignPlayers(players) {
             QuestionStore.methods.loadQuestions(players.length * 2).then(() => {

@@ -8,8 +8,24 @@
 </template>
 
 <script>
+const API = require('../server/api');
+
   export default {
-    
+    mounted() {
+      // When the game starts, query the server with client's playername to get the relevant questions.
+      this.$store.state.socket.on('startGame', () => {
+        console.log("App knows that game is started and will call getQuestions!");
+        API.getQuestions(this.$store.state.name).then((resp) => {
+          console.log("Received response: ", resp);
+          var questions = [];
+          for(var i = 0; i < resp.data.length; i++) {
+            questions.push(resp.data[i].question);
+          }
+          this.$store.commit('setQuestions', questions);
+        });
+      }
+      );
+    }
   }
 </script>
 

@@ -8,10 +8,14 @@ export default new Vuex.Store({
   state: {
     name: 'default_name',
     socket: io('localhost:8000'),
+    questions: []
   },
   mutations: {
     setName(state, name) {
       state.name = name
+    },
+    setQuestions(state, questions) {
+      state.questions = questions
     }
   },
   actions: {

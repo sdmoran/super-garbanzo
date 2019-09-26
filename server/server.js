@@ -28,6 +28,14 @@ app.get('/players/', (req, res) => {
     res.send(PlayerStore.getPlayers());
 })
 
+// GET request for /questions/ URL, responds with list of questions assigned to the given playername.
+app.get('/questions/', (req, res) => {
+    const name = req.query.name;
+    console.log("Questions assigned to %s: ", req.query.name);
+    console.log(QuestionStore.getQuestions(name));
+    res.send(QuestionStore.getQuestions(name));
+})
+
 // POST request for /players/ URL. Adds a player to player list (if valid) and emits 'playerAdded,' telling the ShowPlayers view
 // to fetch updated data from the server. 
 app.post('/players/', (req, res) => {
