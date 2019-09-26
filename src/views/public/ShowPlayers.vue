@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import io from 'socket.io-client';
 
 const API = require('../../../server/api');
 
@@ -17,7 +16,7 @@ export default {
   data: function() {
     return {
         msg: "Hello!",
-        socket: io('localhost:8000'),
+        socket: this.$store.state.socket,
         players: [],
     }
   },

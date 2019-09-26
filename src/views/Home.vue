@@ -16,7 +16,6 @@
 </template>
 
 <script>
-const io = require('socket.io-client');
 const API = require('../../server/api');
 
 export default {
@@ -24,10 +23,10 @@ export default {
   data: function() {
     return {
         playerName: "",
+        socket: this.$store.state.socket,
         succeeded: false,
         showInput: true,
         isAdmin: true,
-        socket: io('localhost:8000'),
         msg: "Type in a name and click submit!",
     }
   },
