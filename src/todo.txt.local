@@ -1,7 +1,0 @@
-TODO
-
-- Promise for assigning players to questions DONE 9/25
-- Mock server for tests
-- TESTS!!!!
-- When questions assigned, emit signal that questions are assigned and have players query for their own questions\
-- Secret code for each player - to make sure it is really them
