@@ -33,16 +33,18 @@ var QuestionStore = {
             }
         },
         assignPlayers(players) {
-            QuestionStore.methods.loadQuestions(players.length * 2).then(() => {
-                for(let i = 0; i < players.length; i++) {
-                    QuestionStore.questions[i * 2].player = players[i].name;
-                    QuestionStore.questions[i * 2 + 1].player = players[i].name;
-                }
-                console.log("Questions done! Assigned as follows: ");
-                for(let i = 0; i < QuestionStore.questions.length; i++) {
-                    console.log(QuestionStore.questions[i]);
-                }
-            });
+            return new Promise((resolve, reject) => {
+                QuestionStore.methods.loadQuestions(players.length * 2).then(() => {
+                    for(let i = 0; i < players.length; i++) {
+                        QuestionStore.questions[i * 2].player = players[i].name;
+                        QuestionStore.questions[i * 2 + 1].player = players[i].name;
+                    }
+                    resolve(QuestionStore.questions);
+                })
+                .catch((err) => {
+                    reject("An error occurred while assigning questions.")
+                });
+            })
         }
     },
 }

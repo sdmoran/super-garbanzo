@@ -54,11 +54,15 @@ app.post('/players/', (req, res) => {
 
 // POST request to start the game.
 app.post('/admin/start', (req, res) => {
-    io.emit('startGame');
-    console.log('Game starting...');
-    QuestionStore.assignPlayers(PlayerStore.getPlayers());
-    console.log(QuestionStore.getQuestions());
-    res.send('Game starting...');
+    // Make sure we assign questions before we start the game!
+    QuestionStore.assignPlayers(PlayerStore.getPlayers()).then(() =>
+        {
+            io.emit('startGame');
+            console.log('Game starting...');
+            console.log(QuestionStore.getQuestions());
+            res.send('Game starting...');
+        }
+    )
 })
 
 // Starts server

@@ -8,6 +8,9 @@
 </template>
 
 <script>
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 const API = require('../server/api');
 
   export default {
