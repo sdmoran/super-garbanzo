@@ -2,14 +2,17 @@ const express = require('express');
 const app = express();
 // Run backend server on VUE_APP_PORT if specified, default 8000.
 const port = process.env.VUE_APP_PORT || 8000;
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
 
 // Include PlayerStore and QuestionStore
 const PlayerStore = require('./PlayerStore');
 const QuestionStore = require('./QuestionStore');
 
 
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
+// Keep track of whether or not the game has been started!
+let started = false;
 
 // Set up headers for server
 app.use(function(req, res, next) {
@@ -39,30 +42,43 @@ app.get('/questions/', (req, res) => {
 // POST request for /players/ URL. Adds a player to player list (if valid) and emits 'playerAdded,' telling the ShowPlayers view
 // to fetch updated data from the server. 
 app.post('/players/', (req, res) => {
-    const name = req.body.name;
-    if(PlayerStore.addPlayer(name)) {
-        console.log(PlayerStore.getPlayers());
-        io.emit('playerAdded', name);
-        res.send("Added player!");
+    if(!started) {
+        const name = req.body.name;
+        if(PlayerStore.addPlayer(name)) {
+            console.log(PlayerStore.getPlayers());
+            io.emit('playerAdded', name);
+            res.send("Added player!");
+        }
+        else {
+            res.status(409);
+            res.send("Failed to add player!");
+        }
     }
     else {
-        res.status(409);
-        res.send("Failed to add player!");
+        res.status(420);
+        res.send("Can't add player, game already underway!")
     }
 })
 
 
 // POST request to start the game.
 app.post('/admin/start', (req, res) => {
-    // Make sure we assign questions before we start the game!
-    QuestionStore.assignPlayers(PlayerStore.getPlayers()).then(() =>
-        {
-            io.emit('startGame');
-            console.log('Game starting...');
-            console.log(QuestionStore.getQuestions());
-            res.send('Game starting...');
-        }
-    )
+    if(!started) {
+        // Make sure we assign questions before we start the game!
+        QuestionStore.assignPlayers(PlayerStore.getPlayers()).then(() =>
+            {
+                started = true;
+                io.emit('startGame');
+                console.log('Game starting...');
+                console.log(QuestionStore.getQuestions());
+                res.send('Game starting...');
+            }
+        )
+    }
+    else {
+        res.status(420);
+        res.send("Game already started!")
+    }
 })
 
 // Starts server
