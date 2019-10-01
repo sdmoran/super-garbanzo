@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     name: 'default_name',
     socket: io('localhost:8000'),
-    questions: []
+    questions: [],
+    index: 0,
   },
   mutations: {
     setName(state, name) {
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     },
     setQuestions(state, questions) {
       state.questions = questions
+    },
+    incrementQuestion(state) {
+      state.index++
     }
   },
   actions: {
