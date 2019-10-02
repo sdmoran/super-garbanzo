@@ -26,6 +26,11 @@ const addPlayer = function(name) {
     return axios.post(url + playerPath, {"name": name});
 }
 
+// Make a POST request to server to add answers for the given questions.
+const sendQuestions = function(name, questions) {
+    return axios.post(url + questionPath, {"name": name, questions: questions})
+}
+
 const get = function() {
     return axios.get(url);
 }
@@ -37,5 +42,6 @@ const startGame = function() {
 exports.getQuestions = getQuestions;
 exports.getPlayers = getPlayers;
 exports.addPlayer = addPlayer;
+exports.sendQuestions = sendQuestions;
 exports.startGame = startGame;
 exports.get = get;

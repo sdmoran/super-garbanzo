@@ -60,6 +60,14 @@ app.post('/players/', (req, res) => {
     }
 })
 
+// POST request for /questions/ URL. Adds answers to the questions associated with the given
+// playername and questions.
+app.post('/questions/', (req, res) => {
+    console.log("Questions from Player: ", req.body.name);
+    console.log(req.body.questions);
+    res.status(200);
+    res.send("Successfully added questions!");
+})
 
 // POST request to start the game.
 app.post('/admin/start', (req, res) => {
@@ -77,7 +85,7 @@ app.post('/admin/start', (req, res) => {
     }
     else {
         res.status(420);
-        res.send("Game already started!")
+        res.send("Game already started!");
     }
 })
 
