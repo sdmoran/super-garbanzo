@@ -11,7 +11,12 @@ var QuestionStore = {
                     QuestionDAO.randomQuestions(num)
                     .then((rows) => {
                         for(let i = 0; i < rows.length; i++) {
-                            QuestionStore.questions.push({player: null, question: rows[i].questiontext});
+                            QuestionStore.questions.push(
+                            {   
+                                player: null,
+                                question: rows[i].questiontext,
+                                answer: null
+                            });
                         }
                         resolve(QuestionStore.questions);
                     })
@@ -45,9 +50,26 @@ var QuestionStore = {
                     reject("An error occurred while assigning questions.")
                 });
             })
-        }
+        },
+        // Answers the given question if it exists and player is correct
+        answer(question, answer, player) {
+            for(q in QuestionStore.questions) {
+                var current = QuestionStore.questions[q];
+                if(current.question === question && current.player === player) {
+                    current.answer = answer
+                }
+            }
+        },
+        // Answer all given questions for the provided player
+        answerQuestions(player, answers) {
+            // Questions provided from player
+            for(a in answers) {
+                QuestionStore.methods.answer(answers[a].question, answers[a].answer, player)
+            }
+        },
     },
 }
 
 exports.getQuestions = QuestionStore.methods.getQuestions;
 exports.assignPlayers = QuestionStore.methods.assignPlayers;
+exports.answerQuestions = QuestionStore.methods.answerQuestions;
