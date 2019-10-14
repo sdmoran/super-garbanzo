@@ -39,6 +39,16 @@ app.get('/questions/', (req, res) => {
     res.send(QuestionStore.getQuestions(name));
 })
 
+// GET requestion for /questions/answered/ URL, responds with list of questions that have been answered.
+app.get('/questions/answered/', (req, res) => {
+    var answered = QuestionStore.getQuestions().filter( (q) => {
+        return q.answer !== null;
+    });
+    console.log("Answered questions: ", answered);
+
+    res.send(answered);
+})
+
 // POST request for /players/ URL. Adds a player to player list (if valid) and emits 'playerAdded,' telling the ShowPlayers view
 // to fetch updated data from the server. 
 app.post('/players/', (req, res) => {
@@ -64,6 +74,7 @@ app.post('/players/', (req, res) => {
 // playername and questions.
 app.post('/questions/', (req, res) => {
     QuestionStore.answerQuestions(req.body.name, req.body.questions);
+    io.emit('questionsAnswered');
     res.status(200);
     res.send("Successfully added questions!");
 })

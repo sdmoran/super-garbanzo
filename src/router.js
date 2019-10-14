@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Play from './views/Play.vue'
 import NotFound from './views/NotFound'
 import ShowPlayers from './views/public/ShowPlayers'
+import ShowAnswers from './views/public/ShowAnswers'
 
 Vue.use(Router)
 
@@ -18,6 +19,11 @@ export default new Router({
       path: '/public/showplayers/',
       name: 'showplayers',
       component: ShowPlayers
+    },
+    {
+      path: '/public/showanswers',
+      name: 'ShowAnswers',
+      component: ShowAnswers
     },
     {
       path: '*',

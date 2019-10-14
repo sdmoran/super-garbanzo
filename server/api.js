@@ -21,6 +21,11 @@ const getQuestions = function(name) {
     });
 }
 
+// Make a GET request to server for the questions that have been answered.
+const getAnsweredQuestions = function() {
+    return axios.get(url + questionPath + '/answered');
+}
+
 // Make a POST request to server with the given player name.
 const addPlayer = function(name) {
     return axios.post(url + playerPath, {"name": name});
@@ -44,4 +49,5 @@ exports.getPlayers = getPlayers;
 exports.addPlayer = addPlayer;
 exports.sendQuestions = sendQuestions;
 exports.startGame = startGame;
+exports.getAnsweredQuestions = getAnsweredQuestions;
 exports.get = get;
