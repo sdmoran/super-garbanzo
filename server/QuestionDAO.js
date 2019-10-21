@@ -30,11 +30,19 @@ function randomQuestions(num=1) {
 
 // CURRENTLY this won't work because connection is not opened before query is made.
 // Useful for loading questions into the server, if you have some prepared in a file.
-function loadQuestions() {
+function addQuestionsToDB() {
+    connection.connect();
     // Create linereader on questions file
     let rl = readline.createInterface({
         input: fs.createReadStream('questions.txt')
     })
+
+    // Create table
+    var create = "CREATE TABLE `super-garbanzo`.`questions` (`questionid` INT NOT NULL, `questiontext` VARCHAR(200) NULL, PRIMARY KEY (`questionid`));";
+    connection.query(create), function(err, result) {
+        if (err) throw err;
+        console.log("Table created!");
+    }
 
     // SQL query to execute
     var sql = "INSERT INTO questions (questionid, questiontext) VALUES ?";
@@ -63,3 +71,4 @@ function loadQuestions() {
 }
 
 exports.randomQuestions = randomQuestions;
+exports.addQuestionsToDB = addQuestionsToDB;

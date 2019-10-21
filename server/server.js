@@ -5,6 +5,10 @@ const port = process.env.VUE_APP_PORT || 8000;
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
+// This is code to load questions into database. Should ONLY ever need to be run when setting up database.
+// const QuestionDAO = require('./QuestionDAO');
+// QuestionDAO.addQuestionsToDB();
+
 
 // Include PlayerStore and QuestionStore
 const PlayerStore = require('./PlayerStore');
