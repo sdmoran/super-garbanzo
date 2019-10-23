@@ -17,6 +17,23 @@ const QuestionStore = require('./QuestionStore');
 
 // Keep track of whether or not the game has been started!
 let started = false;
+const seconds_to_answer = 1000;
+let seconds_left = seconds_to_answer;
+
+// Function to countdown time players have to answer questions.
+// Counts down from the number of seconds player have to 0, emitting tickDown
+// event every time it ticks down and a timeUp event when it reaches 0.
+function countdown() {
+    console.log(seconds_left);
+    if(seconds_left > 0) {
+        seconds_left--;
+        io.emit('tickDown', seconds_left);
+    }
+    else {
+        io.emit('timeUp', 0);
+        clearInterval(countdown);
+    }
+}
 
 // Set up headers for server
 app.use(function(req, res, next) {
@@ -92,6 +109,8 @@ app.post('/admin/start', (req, res) => {
                 started = true;
                 io.emit('startGame');
                 console.log('Game starting...');
+                // Start countdown!
+                setInterval(countdown, 1000);
                 console.log(QuestionStore.getQuestions());
                 res.send('Game starting...');
             }

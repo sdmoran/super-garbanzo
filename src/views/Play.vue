@@ -1,6 +1,7 @@
 <template>
     <div class="play">
         <h1>This is the Play view!</h1>
+        <h2>Seconds left: {{this.timeLeft}}</h2>
         <p>Your name: {{this.$store.state.name}}</p>
         <div v-if="this.$store.state.index < this.$store.state.questions.length">
             <p>Your questions:</p>
@@ -25,7 +26,7 @@ export default {
     },
     data: function() {
         return {
-
+            timeLeft: 0,
         }
     },
     methods: {
@@ -39,5 +40,10 @@ export default {
             })
         }
     },
+    mounted() {
+    this.$store.state.socket.on('tickDown', (timeLeft) => {
+      this.timeLeft = timeLeft;
+    });
+  }
 }
 </script>
