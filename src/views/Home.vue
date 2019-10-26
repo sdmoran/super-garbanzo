@@ -50,9 +50,7 @@ export default {
     }
   },
   mounted() {
-    this.socket.on('startGame', () => {
-      this.$router.push('/play/');
-    });
+
   }
 }
 </script>

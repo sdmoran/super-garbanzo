@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Play from './views/Play.vue'
 import NotFound from './views/NotFound'
+import Vote from './views/Vote'
 import ShowPlayers from './views/public/ShowPlayers'
 import ShowAnswers from './views/public/ShowAnswers'
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/play/',
       name: 'Play',
       component: Play
-    }
+    },
+    {
+      path: '/vote/',
+      name: 'Vote',
+      component: Vote
+    },
   ]
 })

@@ -28,6 +28,16 @@ const API = require('../server/api');
         });
       }
       );
+    
+      // When the client receives the startGame signal, change the route to the Play view.
+      this.$store.state.socket.on('startGame', () => {
+        this.$router.push('/play/');
+      });
+
+      // When the client receives the vote signal, change the route to the Vote view.
+      this.$store.state.socket.on('vote', () => {
+        this.$router.push('/vote/');
+      });
     }
   }
 </script>

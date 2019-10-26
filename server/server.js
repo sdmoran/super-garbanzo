@@ -32,6 +32,7 @@ const countdown = function () {
     }
     else {
         io.emit('timeUp', 0);
+        io.emit('vote');
         clearInterval(intervalID);
     }
 }
@@ -96,6 +97,8 @@ app.post('/players/', (req, res) => {
 // playername and questions.
 app.post('/questions/', (req, res) => {
     QuestionStore.answerQuestions(req.body.name, req.body.questions);
+    console.log("Questions received!");
+    console.log(QuestionStore.getQuestions());
     io.emit('questionsAnswered');
     res.status(200);
     res.send("Successfully added questions!");
@@ -112,7 +115,6 @@ app.post('/admin/start', (req, res) => {
                 console.log('Game starting...');
                 // Start countdown!
                 intervalID = setInterval(countdown, 1000);
-                console.log(QuestionStore.getQuestions());
                 res.send('Game starting...');
             }
         )
