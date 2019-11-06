@@ -8,17 +8,13 @@ var QuestionStore = {
             return new Promise((resolve, reject) => {
                 // Only fetch questions if the array is empty.
                 if(QuestionStore.questions.length === 0) {
+                    qs = []
                     QuestionDAO.randomQuestions(num)
                     .then((rows) => {
                         for(let i = 0; i < rows.length; i++) {
-                            QuestionStore.questions.push(
-                            {   
-                                player: null,
-                                question: rows[i].questiontext,
-                                answer: null
-                            });
+                            qs.push(rows[i].questiontext);
                         }
-                        resolve(QuestionStore.questions);
+                        resolve(qs);
                     })
                     .catch((err) => {
                         console.log("An error occured in loadQuestions!");
@@ -39,12 +35,29 @@ var QuestionStore = {
         },
         assignPlayers(players) {
             return new Promise((resolve, reject) => {
-                QuestionStore.methods.loadQuestions(players.length * 2).then(() => {
+                // 2 questions for each player, 2 players per question. So equal # players and questions.
+                // Randomize players
+                shuffle(QuestionStore.questions);
+                // Load questions, then assign each question to two different players
+                QuestionStore.methods.loadQuestions(players.length).then((qs) => {
+                    assignedQuestions = [];
+                    // Each player gets assigned two unique questions (unique provided more than 1 player)
                     for(let i = 0; i < players.length; i++) {
-                        QuestionStore.questions[i * 2].player = players[i].name;
-                        QuestionStore.questions[i * 2 + 1].player = players[i].name;
+                        assignedQuestions.push
+                        ({   
+                                player: players[i].name,
+                                question: qs[i],
+                                answer: null
+                            });
+                        assignedQuestions.push
+                        ({   
+                                player: players[i].name,
+                                question: qs[(i + 1) % (qs.length)],
+                                answer: null
+                            });
                     }
-                    resolve(QuestionStore.questions);
+                    QuestionStore.questions = assignedQuestions;
+                    resolve(assignedQuestions);
                 })
                 .catch((err) => {
                     reject("An error occurred while assigning questions.")
@@ -68,6 +81,15 @@ var QuestionStore = {
             }
         },
     },
+}
+
+// Helper function to shuffle an array, thanks Stackoverflow
+function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
 }
 
 exports.getQuestions = QuestionStore.methods.getQuestions;
