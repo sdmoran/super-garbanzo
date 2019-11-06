@@ -72,6 +72,11 @@ app.get('/questions/answered/', (req, res) => {
     res.send(answered);
 })
 
+// GET request for /play/timeleft/ URL, responds with number of seconds left in the voting period.
+app.get('/play/timeleft/', (req, res) => {
+    res.send({'seconds_left': seconds_left});
+})
+
 // POST request for /players/ URL. Adds a player to player list (if valid) and emits 'playerAdded,' telling the ShowPlayers view
 // to fetch updated data from the server. 
 app.post('/players/', (req, res) => {

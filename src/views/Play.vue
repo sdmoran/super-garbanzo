@@ -41,6 +41,10 @@ export default {
         }
     },
     mounted() {
+    API.getTime().then((res) => {
+        console.log(res.data);
+        this.timeLeft = res.data.seconds_left;
+    });
     this.$store.state.socket.on('tickDown', (timeLeft) => {
         console.log(this.$refs.q);
       this.timeLeft = timeLeft;
