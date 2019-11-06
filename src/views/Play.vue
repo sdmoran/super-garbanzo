@@ -6,7 +6,7 @@
         <div v-if="this.$store.state.index < this.$store.state.questions.length && this.timeLeft > 0">
             <p>Your questions:</p>
             <!-- Wow this line is ugly. TODO figure out how to make it less ugly -->
-            <Question :text="this.$store.state.questions[this.$store.state.index].question" @done="sendAnswers()">
+            <Question ref="q" :text="this.$store.state.questions[this.$store.state.index].question" @done="sendAnswers()">
             </Question>
         </div>
         <p v-else>
@@ -42,6 +42,7 @@ export default {
     },
     mounted() {
     this.$store.state.socket.on('tickDown', (timeLeft) => {
+        console.log(this.$refs.q);
       this.timeLeft = timeLeft;
     });
     this.$store.state.socket.on('timeUp', () => {

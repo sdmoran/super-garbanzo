@@ -35,6 +35,11 @@ export default {
         return {
             answer: null,
         }
+    },
+    mounted() {
+        this.$store.state.socket.on('timeUp', () => {
+            this.nextQuestion();
+        });
     }
 }
 </script>
