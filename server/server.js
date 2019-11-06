@@ -62,7 +62,7 @@ app.get('/questions/', (req, res) => {
     res.send(QuestionStore.getQuestions(name));
 })
 
-// GET requestion for /questions/answered/ URL, responds with list of questions that have been answered.
+// GET request for /questions/answered/ URL, responds with list of questions that have been answered.
 app.get('/questions/answered/', (req, res) => {
     var answered = QuestionStore.getQuestions().filter( (q) => {
         return q.answer !== null;
