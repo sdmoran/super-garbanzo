@@ -77,6 +77,11 @@ app.get('/play/timeleft/', (req, res) => {
     res.send({'seconds_left': seconds_left});
 })
 
+// GET request for the list of questions to vote on. Questions returned in ordered pair for voting.
+app.get('/play/vote/', (req, res) => {
+    res.send({'questions': QuestionStore.orderQuestionsForVoting()});
+})
+
 // POST request for /players/ URL. Adds a player to player list (if valid) and emits 'playerAdded,' telling the ShowPlayers view
 // to fetch updated data from the server. 
 app.post('/players/', (req, res) => {

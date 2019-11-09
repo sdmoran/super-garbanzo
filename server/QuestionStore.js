@@ -33,6 +33,10 @@ var QuestionStore = {
                 });
             }
         },
+        orderQuestionsForVoting() {
+            // Return questions sorted into pairs by the text of the question
+            return QuestionStore.questions.sort((a, b) => (a.question > b.question) ? 1 : -1);
+        },
         assignPlayers(players) {
             return new Promise((resolve, reject) => {
                 // 2 questions for each player, 2 players per question. So equal # players and questions.
@@ -95,3 +99,4 @@ function shuffle(a) {
 exports.getQuestions = QuestionStore.methods.getQuestions;
 exports.assignPlayers = QuestionStore.methods.assignPlayers;
 exports.answerQuestions = QuestionStore.methods.answerQuestions;
+exports.orderQuestionsForVoting = QuestionStore.methods.orderQuestionsForVoting;
