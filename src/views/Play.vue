@@ -27,17 +27,21 @@ export default {
     data: function() {
         return {
             timeLeft: 0,
+            questionsSent: false,
         }
     },
     methods: {
         sendAnswers() {
-            API.sendQuestions(this.$store.state.name, this.$store.state.questions)
-            .then(() =>  {
-                console.log("Questions received by server!")
-            })
-            .catch(() => {
-                console.log("Something went wrong with the server!")
-            })
+            if(!this.questionsSent) {
+                this.questionsSent = true;
+                API.sendQuestions(this.$store.state.name, this.$store.state.questions)
+                .then(() =>  {
+                    console.log("Questions received by server!")
+                })
+                .catch(() => {
+                    console.log("Something went wrong with the server!")
+                })
+            }
         }
     },
     mounted() {
@@ -46,7 +50,6 @@ export default {
         this.timeLeft = res.data.seconds_left;
     });
     this.$store.state.socket.on('tickDown', (timeLeft) => {
-        console.log(this.$refs.q);
       this.timeLeft = timeLeft;
     });
     this.$store.state.socket.on('timeUp', () => {
