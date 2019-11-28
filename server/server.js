@@ -72,8 +72,6 @@ app.get('/players/', (req, res) => {
 // GET request for /questions/ URL, responds with list of questions assigned to the given playername.
 app.get('/questions/', (req, res) => {
     const name = req.query.name;
-    console.log("Questions assigned to %s: ", req.query.name);
-    console.log(QuestionStore.getQuestions(name));
     res.send(QuestionStore.getQuestions(name));
 })
 
@@ -98,7 +96,6 @@ app.post('/players/', (req, res) => {
     if(!started) {
         const name = req.body.name;
         if(PlayerStore.addPlayer(name)) {
-            console.log(PlayerStore.getPlayers());
             io.emit('playerAdded', name);
             res.send("Added player!");
         }
@@ -117,7 +114,6 @@ app.post('/players/', (req, res) => {
 // playername and questions.
 app.post('/questions/', (req, res) => {
     QuestionStore.answerQuestions(req.body.name, req.body.questions);
-    console.log("Questions received!");
     io.emit('questionsAnswered');
     res.status(200);
     res.send("Successfully added questions!");
@@ -143,6 +139,11 @@ app.post('/admin/start', (req, res) => {
         res.status(420);
         res.send("Game already started!");
     }
+})
+
+app.post('/vote/', (req, res) => {
+    console.log("New score: " + QuestionStore.vote(req.body.question));
+    res.send('Received vote!')
 })
 
 // Handle logic for voting, send 2 questions at a time

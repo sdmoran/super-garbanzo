@@ -1,5 +1,15 @@
 const QuestionDAO = require('./QuestionDAO');
 
+function createQuestion(player=null, question=null, id) {
+    return {
+        player: player,
+        question: question,
+        answer: null,
+        id: id,
+        score: 0 
+    }
+}
+
 var QuestionStore = {
     questions: [],
     methods: {
@@ -47,18 +57,8 @@ var QuestionStore = {
                     assignedQuestions = [];
                     // Each player gets assigned two unique questions (unique provided more than 1 player)
                     for(let i = 0; i < players.length; i++) {
-                        assignedQuestions.push
-                        ({   
-                                player: players[i].name,
-                                question: qs[i],
-                                answer: null
-                            });
-                        assignedQuestions.push
-                        ({   
-                                player: players[i].name,
-                                question: qs[(i + 1) % (qs.length)],
-                                answer: null
-                            });
+                        assignedQuestions.push(createQuestion(players[i].name, qs[i], i))
+                        assignedQuestions.push(createQuestion(players[i].name, qs[(i + 1) % qs.length], i + 1))
                     }
                     QuestionStore.questions = assignedQuestions;
                     resolve(assignedQuestions);
@@ -84,6 +84,16 @@ var QuestionStore = {
                 QuestionStore.methods.answer(answers[a].question, answers[a].answer, player)
             }
         },
+        vote(questionid) {
+            console.log("questionid in vote handler: " + questionid)
+            for(q in QuestionStore.questions) {
+                var current = QuestionStore.questions[q];
+                if(current.id == questionid) {
+                    current.score += 1;
+                    return current.score;
+                }
+            }
+        }
     },
 }
 
@@ -100,3 +110,4 @@ exports.getQuestions = QuestionStore.methods.getQuestions;
 exports.assignPlayers = QuestionStore.methods.assignPlayers;
 exports.answerQuestions = QuestionStore.methods.answerQuestions;
 exports.orderQuestionsForVoting = QuestionStore.methods.orderQuestionsForVoting;
+exports.vote = QuestionStore.methods.vote;

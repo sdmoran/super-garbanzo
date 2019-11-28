@@ -7,6 +7,7 @@ const playerPath = '/players'
 const questionPath = '/questions'
 const adminPath = '/admin'
 const playPath = '/play'
+const votePath = '/vote'
 
 // Make a GET request to server for the current list of players.
 const getPlayers = function() {
@@ -34,7 +35,7 @@ const addPlayer = function(name) {
 
 // Make a POST request to server to add answers for the given questions.
 const sendQuestions = function(name, questions) {
-    return axios.post(url + questionPath, {"name": name, questions: questions})
+    return axios.post(url + questionPath, {"name": name, questions: questions});
 }
 
 // Make a GET request to the server to get the number of seconds left in voting period.
@@ -47,6 +48,10 @@ const startGame = function() {
     return axios.post(url + adminPath + "/start");
 }
 
+const vote = function(question) {
+    return axios.post(url + votePath, {"question": question});
+}
+
 exports.getQuestions = getQuestions;
 exports.getPlayers = getPlayers;
 exports.addPlayer = addPlayer;
@@ -54,3 +59,4 @@ exports.sendQuestions = sendQuestions;
 exports.startGame = startGame;
 exports.getAnsweredQuestions = getAnsweredQuestions;
 exports.getTime = getTime;
+exports.vote = vote;

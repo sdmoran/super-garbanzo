@@ -6,8 +6,8 @@
     <div class="container">
       <div class="row">
           <span class="col-2"></span>
-          <VoteCard class="col" :text="this.q1text"></VoteCard>
-          <VoteCard class="col" :text="this.q2text"></VoteCard>
+          <VoteCard class="col" :text="this.q1text" :id="this.q1id"></VoteCard>
+          <VoteCard class="col" :text="this.q2text" :id="this.q2id"></VoteCard>
           <span class="col-2"></span>
       </div>
     </div>
@@ -25,14 +25,18 @@ export default {
         return {
           questionText: "",
           q1text: "",
+          q1id: 0,
           q2text: "",
+          q2id: 0
         }
       },
       mounted() {
         this.$store.state.socket.on('questionPair', (qs) => {
           this.questionText = qs[0].question;
           this.q1text = qs[0].answer;
+          this.q1id = qs[0].id;
           this.q2text = qs[1].answer;
+          this.q2id = qs[1].id;
         });
       }
 }
