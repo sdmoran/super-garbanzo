@@ -5,10 +5,8 @@
     <h2>{{this.questionText}}</h2>
     <div class="container">
       <div class="row">
-          <span class="col-2"></span>
-          <VoteCard class="col" :text="this.q1text" :id="this.q1id"></VoteCard>
-          <VoteCard class="col" :text="this.q2text" :id="this.q2id"></VoteCard>
-          <span class="col-2"></span>
+          <VoteCard class="col-sm-6" :text="this.q1text" :id="this.q1id"></VoteCard>
+          <VoteCard class="col-sm-6" :text="this.q2text" :id="this.q2id"></VoteCard>
       </div>
     </div>
   </div>
