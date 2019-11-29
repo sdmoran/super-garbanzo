@@ -54,8 +54,6 @@ function countdown() {
     })
 }
 
-countdown().then(() => console.log("Finished!"));
-
 // Set up headers for server
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -134,7 +132,7 @@ app.post('/admin/start', (req, res) => {
                 console.log('Game starting...');
                 // Start countdown for voting stage. Wacky Javascript quirkiness means countdown
                 // can't directly called with parameters.
-                countdown().then(() => handleVoting);
+                countdown().then(() => handleVoting());
                 res.send('Game starting...');
             }
         )
@@ -156,18 +154,19 @@ function handleVoting() {
 
     let orderedQuestions = QuestionStore.orderQuestionsForVoting();
     sendCurrentQuestions(orderedQuestions, 0);
-    i = 0;
-    function voteLoop () {
-       setTimeout(function () {
-            i++;
-            sendCurrentQuestions(orderedQuestions, i);        
-            if (i < orderedQuestions.length / 2 - 1) {
-                voteLoop(); 
-            }            
-        }, 3000)
+    i = orderedQuestions.length / 2 - 1;
+    function voteLoop (i) {
+        if(i < 1) {
+            return;
+        }
+        else {
+            console.log("Voteloop " + i)
+            countdown().then(() => {
+                voteLoop(i - 1)
+            })
+        }
     }
-    
-    voteLoop();
+    voteLoop(i);
 }
 
 // 
