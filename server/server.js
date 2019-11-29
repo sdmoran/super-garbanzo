@@ -153,20 +153,21 @@ function handleVoting() {
     io.emit('vote');
 
     let orderedQuestions = QuestionStore.orderQuestionsForVoting();
-    sendCurrentQuestions(orderedQuestions, 0);
-    i = orderedQuestions.length / 2 - 1;
+    // sendCurrentQuestions(orderedQuestions, 0);
+    i = orderedQuestions.length / 2;
     function voteLoop (i) {
-        if(i < 1) {
+        if(i > orderedQuestions.length / 2) {
             return;
         }
         else {
             console.log("Voteloop " + i)
+            sendCurrentQuestions(orderedQuestions, i);
             countdown().then(() => {
-                voteLoop(i - 1)
+                voteLoop(i + 1)
             })
         }
     }
-    voteLoop(i);
+    voteLoop(0);
 }
 
 // 
