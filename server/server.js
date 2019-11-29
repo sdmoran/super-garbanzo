@@ -31,26 +31,30 @@ let seconds_left = 10;
 // Counts down from the number of seconds player have to 0, emitting tickDown
 // event every time it ticks down and a timeUp event when it reaches 0. Also
 // emits msg, which serves to advance the game state. Finally, calls callback fn.
-const countdown = function (callback) {
-    // Countdown logic
-    // Number of seconds that countdown will take
-    let intervalID = setInterval(function() {
-        if(seconds_left > 0) {
-            seconds_left--;
-            io.emit('tickDown', seconds_left);
-        }
-        else {
-            io.emit('timeUp', 0);
-            clearInterval(intervalID);
-            // Add a small delay - it seems a bit silly, but it's kind of jarring to jump DIRECTLY from answering to voting.
-            // Experience is nicer with a second or two to relax in between.
-            setTimeout(function() {
-                callback();     // Callback function
-            }, 2000);
-        }
-    }, 1000);
-
+function countdown() {
+    seconds_left = countdown_seconds;
+    return new Promise((resolve, reject) => {
+        // Countdown logic
+        // Number of seconds that countdown will take
+        let intervalID = setInterval(function() {
+            if(seconds_left > 0) {
+                seconds_left--;
+                io.emit('tickDown', seconds_left);
+            }
+            else {
+                io.emit('timeUp', 0);
+                clearInterval(intervalID);
+                // Add a small delay - it seems a bit silly, but it's kind of jarring to jump DIRECTLY from answering to voting.
+                // Experience is nicer with a second or two to relax in between.
+                setTimeout(function() {
+                    resolve("Countdown finished");
+                }, 2000);
+            }
+        }, 1000);
+    })
 }
+
+countdown().then(() => console.log("Finished!"));
 
 // Set up headers for server
 app.use(function(req, res, next) {
@@ -130,7 +134,7 @@ app.post('/admin/start', (req, res) => {
                 console.log('Game starting...');
                 // Start countdown for voting stage. Wacky Javascript quirkiness means countdown
                 // can't directly called with parameters.
-                countdown(handleVoting);
+                countdown().then(() => handleVoting);
                 res.send('Game starting...');
             }
         )
@@ -149,7 +153,6 @@ app.post('/vote/', (req, res) => {
 // Handle logic for voting, send 2 questions at a time
 function handleVoting() {
     io.emit('vote');
-    // GET request for the list of questions to vote on. Questions returned in ordered pair for voting.
 
     let orderedQuestions = QuestionStore.orderQuestionsForVoting();
     sendCurrentQuestions(orderedQuestions, 0);
@@ -170,7 +173,7 @@ function handleVoting() {
 // 
 function sendCurrentQuestions(orderedQuestions, i) {
     let currentQuestions = [orderedQuestions[i * 2], orderedQuestions[i * 2 + 1]];
-    console.log(currentQuestions);
+    console.log("Current questions: " + currentQuestions);
     io.emit('questionPair', currentQuestions);
 }
 
