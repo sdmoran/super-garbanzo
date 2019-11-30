@@ -5,9 +5,9 @@
     <h2>Current Question:</h2>
     <h2>{{this.questionText}}</h2>
     <div class="container">
-      <div class="row">
-          <VoteCard class="col-sm-6" :text="this.q1text" :id="this.q1id"></VoteCard>
-          <VoteCard class="col-sm-6" :text="this.q2text" :id="this.q2id"></VoteCard>
+      <div class="row" v-if="this.show">
+          <VoteCard class="col-sm-6" @hasVoted="hide()" :text="this.q1text" :id="this.q1id"></VoteCard>
+          <VoteCard class="col-sm-6" @hasVoted="hide()" :text="this.q2text" :id="this.q2id"></VoteCard>
       </div>
     </div>
   </div>
@@ -27,7 +27,13 @@ export default {
           q1id: 0,
           q2text: "",
           q2id: 0,
-          timeLeft: 0
+          timeLeft: 0,
+          show: true
+        }
+      },
+      methods: {
+        hide() {
+          this.show = false
         }
       },
       mounted() {
