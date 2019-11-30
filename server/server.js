@@ -27,11 +27,14 @@ let started = false;
 const countdown_seconds = 10;
 let seconds_left = 10;
 
+// Keep track of current questions
+let currentQuestions = [];
+
 // Function to countdown time players have to answer questions.
 // Counts down from the number of seconds player have to 0, emitting tickDown
 // event every time it ticks down and a timeUp event when it reaches 0. Also
 // emits msg, which serves to advance the game state. Finally, calls callback fn.
-function countdown() {
+function countdown(callback=false) {
     seconds_left = countdown_seconds;
     return new Promise((resolve, reject) => {
         // Countdown logic
@@ -44,6 +47,9 @@ function countdown() {
             else {
                 io.emit('timeUp', 0);
                 clearInterval(intervalID);
+                if(callback) {
+                    callback();
+                }
                 // Add a small delay - it seems a bit silly, but it's kind of jarring to jump DIRECTLY from answering to voting.
                 // Experience is nicer with a second or two to relax in between.
                 setTimeout(function() {
@@ -160,8 +166,8 @@ function handleVoting() {
             return;
         }
         else {
-            sendCurrentQuestions(orderedQuestions, i);
-            countdown().then(() => {
+            let qs = sendCurrentQuestions(orderedQuestions, i);
+            countdown(showScores).then(() => {
                 voteLoop(i + 1)
             })
         }
@@ -171,12 +177,16 @@ function handleVoting() {
 
 // 
 function sendCurrentQuestions(orderedQuestions, i) {
-    let currentQuestions = [orderedQuestions[i * 2], orderedQuestions[i * 2 + 1]];
+    currentQuestions = [orderedQuestions[i * 2], orderedQuestions[i * 2 + 1]];
     console.log("Current questions: " + currentQuestions);
     io.emit('questionPair', currentQuestions);
 }
 
-
+function showScores() {
+    console.log("Question 1 score: " + currentQuestions[0].score)
+    console.log("Question 2 score: " + currentQuestions[1].score)
+    io.emit('showScores', currentQuestions);
+}
 // When game starts...
 // - Answer questions for 10 seconds
 // - Loop through pairs of questions, vote on each
