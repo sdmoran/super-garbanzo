@@ -156,11 +156,10 @@ function handleVoting() {
     // sendCurrentQuestions(orderedQuestions, 0);
     i = orderedQuestions.length / 2;
     function voteLoop (i) {
-        if(i > orderedQuestions.length / 2) {
+        if(i > orderedQuestions.length / 2 - 1) {
             return;
         }
         else {
-            console.log("Voteloop " + i)
             sendCurrentQuestions(orderedQuestions, i);
             countdown().then(() => {
                 voteLoop(i + 1)
