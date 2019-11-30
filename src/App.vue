@@ -17,7 +17,6 @@ const API = require('../server/api');
     mounted() {
       // When the game starts, query the server with client's playername to get the relevant questions.
       this.$store.state.socket.on('startGame', () => {
-        console.log("App knows that game is started and will call getQuestions!");
         API.getQuestions(this.$store.state.name).then((resp) => {
           console.log("Received response: ", resp);
           var questions = [];

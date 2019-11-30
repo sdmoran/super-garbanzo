@@ -1,6 +1,7 @@
 <template>
   <div class="vote">
     <h1>This is the Vote view!</h1>
+    <h2>Seconds left: {{this.timeLeft}}</h2>
     <h2>Current Question:</h2>
     <h2>{{this.questionText}}</h2>
     <div class="container">
@@ -25,7 +26,8 @@ export default {
           q1text: "",
           q1id: 0,
           q2text: "",
-          q2id: 0
+          q2id: 0,
+          timeLeft: 0
         }
       },
       mounted() {
@@ -35,6 +37,9 @@ export default {
           this.q1id = qs[0].id;
           this.q2text = qs[1].answer;
           this.q2id = qs[1].id;
+        });
+        this.$store.state.socket.on('tickDown', (timeLeft) => {
+          this.timeLeft = timeLeft;
         });
       }
 }

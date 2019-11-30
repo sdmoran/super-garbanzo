@@ -37,9 +37,7 @@ export default {
         }
     },
     mounted() {
-        this.$store.state.socket.on('timeUp', () => {
-            this.nextQuestion();
-        });
+        
     }
 }
 </script>

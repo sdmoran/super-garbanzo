@@ -14,8 +14,6 @@ export default new Vuex.Store({
   getters: {
     // True if the player has not answered all questions, false otherwise
     moreQuestions: state => {
-      console.log("Index: ", state.index)
-      console.log("L: ", state.questions.length)
       return (state.index < state.questions.length)
     }
   },
