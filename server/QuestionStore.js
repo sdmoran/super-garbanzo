@@ -6,7 +6,7 @@ function createQuestion(player=null, question=null, id) {
         question: question,
         answer: null,
         id: id,
-        score: 0 
+        votes: []
     }
 }
 
@@ -84,16 +84,16 @@ var QuestionStore = {
                 QuestionStore.methods.answer(answers[a].question, answers[a].answer, player)
             }
         },
-        vote(questionid) {
-            console.log("questionid in vote handler: " + questionid)
+        vote(questionid, playername) {
             for(q in QuestionStore.questions) {
                 var current = QuestionStore.questions[q];
                 if(current.id == questionid) {
-                    current.score += 1;
-                    return current.score;
+                    console.log("Playername: " + playername)
+                    current.votes.push(playername)
+                    return current.votes.length
                 }
             }
-        }
+        },
     },
 }
 

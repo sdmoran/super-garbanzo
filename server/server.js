@@ -150,7 +150,7 @@ app.post('/admin/start', (req, res) => {
 })
 
 app.post('/vote/', (req, res) => {
-    console.log("New score: " + QuestionStore.vote(req.body.question));
+    console.log("New score: " + QuestionStore.vote(req.body.question, req.body.player));
     res.send('Received vote!')
 })
 
@@ -159,10 +159,10 @@ function handleVoting() {
     io.emit('vote');
 
     let orderedQuestions = QuestionStore.orderQuestionsForVoting();
-    // sendCurrentQuestions(orderedQuestions, 0);
     i = orderedQuestions.length / 2;
     function voteLoop (i) {
         if(i > orderedQuestions.length / 2 - 1) {
+            updatePlayerScores();
             return;
         }
         else {
@@ -175,20 +175,22 @@ function handleVoting() {
     voteLoop(0);
 }
 
-// 
+function updatePlayerScores() {
+    // Update player scores, then inform client that scores have been updated.
+    qs = QuestionStore.getQuestions();
+    PlayerStore.updateAllScores(qs)
+    .then((players) => { io.emit('scoresUpdated', players)});
+}
+
+// Emits the current questions via Socket.io 
 function sendCurrentQuestions(orderedQuestions, i) {
     currentQuestions = [orderedQuestions[i * 2], orderedQuestions[i * 2 + 1]];
-    console.log("Current questions: " + currentQuestions);
     io.emit('questionPair', currentQuestions);
 }
 
+// Tells client it's time to show scores
 function showScores() {
-    console.log("Question 1 score: " + currentQuestions[0].score)
-    console.log("Question 2 score: " + currentQuestions[1].score)
     io.emit('showScores', currentQuestions);
 }
-// When game starts...
-// - Answer questions for 10 seconds
-// - Loop through pairs of questions, vote on each
 
 exports.app = app;
