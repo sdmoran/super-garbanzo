@@ -12,7 +12,6 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 const API = require('../server/api');
-
   export default {
     mounted() {
       // When the game starts, query the server with client's playername to get the relevant questions.
@@ -27,10 +26,10 @@ const API = require('../server/api');
         });
       }
       );
-    
+
       // When the client receives the startGame signal, change the route to the Play view.
       this.$store.state.socket.on('startGame', () => {
-        this.$router.push('/play/');
+          this.$router.push('/play/');
       });
 
       // When the client receives the vote signal, change the route to the Vote view.

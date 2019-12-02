@@ -7,15 +7,16 @@ import Vote from './views/Vote'
 import Scoreboard from './views/Scoreboard'
 import ShowPlayers from './views/public/ShowPlayers'
 import ShowAnswers from './views/public/ShowAnswers'
+import store from './store'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
     },
     {
       path: '/public/showplayers/',
@@ -35,12 +36,22 @@ export default new Router({
     {
       path: '/play/',
       name: 'Play',
-      component: Play
+      component: Play,
+      // Check if we have just come from the home route and the player has a valid name
+      beforeEnter: (to, from, next) => {
+        if(from.name == 'home' && store.state.name != 'default_name') next()
+        else next('/')
+      }
     },
     {
       path: '/vote/',
       name: 'Vote',
-      component: Vote
+      component: Vote,
+      // Check if we have just come from the Play route
+      beforeEnter: (to, from, next) => {
+        if(from.name == 'play') next()
+        else next('/')
+      }
     },
     {
       path: '/scoreboard/',
@@ -49,3 +60,5 @@ export default new Router({
     },
   ]
 })
+
+export default router
