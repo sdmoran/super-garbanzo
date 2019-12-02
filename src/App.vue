@@ -37,6 +37,11 @@ const API = require('../server/api');
       this.$store.state.socket.on('vote', () => {
         this.$router.push('/vote/');
       });
+
+      // When the client receives the scores signal, change the route to the Vote view.
+      this.$store.state.socket.on('scoreboard', () => {
+        this.$router.push('/scoreboard/');
+      });
     }
   }
 </script>

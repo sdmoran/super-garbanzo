@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Play from './views/Play.vue'
 import NotFound from './views/NotFound'
 import Vote from './views/Vote'
+import Scoreboard from './views/Scoreboard'
 import ShowPlayers from './views/public/ShowPlayers'
 import ShowAnswers from './views/public/ShowAnswers'
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/vote/',
       name: 'Vote',
       component: Vote
+    },
+    {
+      path: '/scoreboard/',
+      name: 'Scoreboard',
+      component: Scoreboard
     },
   ]
 })

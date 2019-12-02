@@ -163,6 +163,7 @@ function handleVoting() {
     function voteLoop (i) {
         if(i > orderedQuestions.length / 2 - 1) {
             updatePlayerScores();
+            io.emit('scoreboard');
             return;
         }
         else {
