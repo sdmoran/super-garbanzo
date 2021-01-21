@@ -30,7 +30,7 @@
     "express": "^4.17.1",
     "moxios": "^0.4.0",
     "sinon": "^7.4.2",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "socket.io-client": "^2.3.0",
     "vue-template-compiler": "^2.6.10",
     "vuex": "^3.1.1"
